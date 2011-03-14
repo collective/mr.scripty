@@ -1,20 +1,12 @@
 Supported options
 =================
 
-The recipe supports the following options:
-
-.. Note to recipe author!
-   ----------------------
-   For each option the recipe uses you should include a description
-   about the purpose of the option, the format and semantics of the
-   values it accepts, whether it is mandatory or optional and what the
-   default value is if it is omitted.
-
-option1
-    Description for ``option1``...
-
-option2
-    Description for ``option2``...
+The recipe supports the any number of options which are python functions. In fact they are actually
+instance methods of the instance of the scripty recipe. Since the ini parser used with buildout
+doesn't preserve initial whitespace each line of your method should start with a `...` followed
+by the whitespace as per normal python. Since this is a method you can provide a "return" statement.
+The return value will be stored as a value in the buildout parts options which is available for
+replacement in other buildout parts.
 
 
 Example usage

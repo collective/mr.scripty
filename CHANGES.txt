@@ -1,5 +1,5 @@
 1.0 (xxxx-xx-xx)
 ----------------
 
-- Created recipe with ZopeSkel
-  [""]
+- Initial version
+  ["Dylan Jay"]
