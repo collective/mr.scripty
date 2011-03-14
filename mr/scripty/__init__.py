@@ -32,7 +32,8 @@ class Recipe(object):
             if function.startswith('_'):
                 continue
             f = getattr(self, function)
-            result = _LazyString(f)
+            #result = _LazyString(f) #LazyStrings don't work for $ substitions
+            result = f()
 
             self.options[function] = result
 
