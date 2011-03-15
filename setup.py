@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '1.0'
+version = '1.0b1'
 
 long_description = (
     read('README.txt')
@@ -40,7 +40,7 @@ tests_require = ['zope.testing', 'zc.buildout']
 
 setup(name='mr.scripty',
       version=version,
-      description="Write python functions directly in a zc.buildout buildout.cfg",
+      description="Use python to write configuration in zc.buildout",
       long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
