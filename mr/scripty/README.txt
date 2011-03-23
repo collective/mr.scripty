@@ -1,18 +1,32 @@
 Supported options
 =================
 
-The recipe supports the any number of options which are python functions. In fact they are actually
-instance methods of the instance of the scripty recipe. Since the ini parser used with buildout
-doesn't preserve initial whitespace each line of your method should start with a `...` followed
-by the whitespace as per normal python. Since this is a method you can provide a "return" statement.
+The recipe supports the any number of options which are python functions. Since the ini parser
+used with buildout doesn't preserve initial whitespace each line of your method should start
+with a `...` followed by the whitespace as per normal python.
+They will look like this ::
+
+  [myscripts]
+  recipe = mr.scripty
+  function1 =
+    ... x = range(1,10)
+    ... return ' '.join(x)
+
+
 The return value will be stored as a value in the buildout parts options which is available for
 replacement in other buildout parts. What is returned is always converted to a string.
-Methods are evaluated during the initialization of the Recipe instance.
-Options `install`, `update` are treated specially and not evaluated during
-initialization but rather during the install and update phases of the Recipe instance.
-These can be used as quick in place replacement for creating a real recipe and have the same
+
+These functions are actually instance methods of the instance of the scripty recipe.
+Methods are evaluated during the initialization of the Recipe instance, i.e.
+after the cfg is read but before any `install` or 'update` recipe methods have been called.
+Method names of `install`, `update` are treated specially and not evaluated during
+initialization but rather during the install and update phases of building this
+recipe instance.
+These can be used as quick inplace replacement for creating a real recipe and have the same
 semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3. In addition any option beggining
-with `_` is not evaluated so can be used as a private method.
+with `_` is not evaluated so can be used as a private method. Since these are methods `self` is
+an available local variable which refers to the recipe instance. `self.options`, `self.buildout` and
+`self.name` are also available.
 
 
 Example usage

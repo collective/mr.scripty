@@ -34,6 +34,10 @@ class Recipe(object):
             f = getattr(self, function)
             #result = _LazyString(f) #LazyStrings don't work for $ substitions
             result = f()
+            if result is None:
+                result = ''
+            else:
+                result = str(result)
 
             self.options[function] = result
 
