@@ -14,6 +14,10 @@ class Recipe(object):
         for function, body in options.items():
             if function in ['recipe']:
                 continue
+            if function == function.upper():
+                # it's a constant
+                setattr(self, function, body)
+                continue
             newbody = 'def ' + function + '(self):\n'
             for line in body.split('\n'):
                 if line.startswith("..."):
@@ -30,6 +34,8 @@ class Recipe(object):
             if function in ['recipe','install','update']:
                 continue
             if function.startswith('_'):
+                continue
+            if function == function.upper():
                 continue
             f = getattr(self, function)
             #result = _LazyString(f) #LazyStrings don't work for $ substitions

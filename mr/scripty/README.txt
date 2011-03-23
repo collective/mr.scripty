@@ -8,13 +8,17 @@ They will look like this ::
 
   [myscripts]
   recipe = mr.scripty
+  MAX = 10
   function1 =
-    ... x = range(1,10)
+    ... x = range(1,int(self.MAX))
     ... return ' '.join(x)
 
 
 The return value will be stored as a value in the buildout parts options which is available for
 replacement in other buildout parts. What is returned is always converted to a string.
+
+Options all in upper case are treated as string constants and added to the Recipe instance
+as an attribute.
 
 These functions are actually instance methods of the instance of the scripty recipe.
 Methods are evaluated during the initialization of the Recipe instance, i.e.
@@ -100,3 +104,21 @@ From this example you'll notice several things. Options that are part of a mr.sc
 turned into methods of the part instance and can call each other. In addition, each method can
 be called from other buildout recipes by accessing the option via ${part:method} or in code via
 self.buildout[part][method].
+
+Another example
+===============
+
+The following example will make all the values of ports_base available with an offset added to
+each one
+
+[ports_base]
+instance1=8101
+instance2=8102
+
+
+[ports]
+recipe=mr.scripty
+OFFSET = 1000
+init=
+  ... for key,value in self.buildout['ports_base'].items():
+  ...   self.options[key] = str(int(value)+int(self.OFFSET))
