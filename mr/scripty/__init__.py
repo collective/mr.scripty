@@ -19,10 +19,15 @@ class Recipe(object):
                 setattr(self, function, body)
                 continue
             newbody = 'def ' + function + '(self):\n'
+            indent = True
             for line in body.split('\n'):
                 if line.startswith("..."):
-                    line = line[4:] +'\n'
-                newbody += "  "+line +'\n'
+                    line = line[4:]
+                if indent:
+                    newbody += "  "
+                newbody += line +'\n'
+                if line.startswith('"""'):
+                    indent = not indent
 
             exec newbody in globals(), locals()
             f = types.MethodType(eval(function), self, Recipe)
@@ -40,6 +45,8 @@ class Recipe(object):
             f = getattr(self, function)
             #result = _LazyString(f) #LazyStrings don't work for $ substitions
             result = f()
+            if function in ['init']:
+                continue
             if result is None:
                 result = ''
             else:
