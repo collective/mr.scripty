@@ -1,11 +1,7 @@
 Supported options
 =================
 
-The recipe supports any number of options, which are Python functions. As each option
-is a Python function, it needs to possess an acceptable function identifier (see
-http://docs.python.org/reference/lexical_analysis.html#grammar-token-identifier). For instance,
-typical buildout options with hyphens (such as `environment-vars`) will be invalid.
-
+The recipe supports any number of options, which are Python functions. 
 Since the ini parser used with buildout doesn't preserve initial whitespace each line of your method should start
 with a `...` followed by the whitespace as per normal python.
 They will look like this ::
@@ -20,6 +16,10 @@ They will look like this ::
 
 The return value will be stored as a value in the buildout parts options which is available for
 replacement in other buildout parts. What is returned is always converted to a string.
+
+As each option is a Python function, it needs to possess an acceptable function identifier (see
+http://docs.python.org/reference/lexical_analysis.html#grammar-token-identifier). For instance,
+typical buildout options with hyphens (such as `environment-vars`) will be invalid.
 
 Options all in upper case are treated as string constants and added to the Recipe instance
 as an attribute.
