@@ -1,8 +1,12 @@
 Supported options
 =================
 
-The recipe supports the any number of options which are python functions. Since the ini parser
-used with buildout doesn't preserve initial whitespace each line of your method should start
+The recipe supports any number of options, which are Python functions. As each option
+is a Python function, it needs to possess an acceptable function identifier (see
+http://docs.python.org/reference/lexical_analysis.html#grammar-token-identifier). For instance,
+typical buildout options with hyphens (such as `environment-vars`) will be invalid.
+
+Since the ini parser used with buildout doesn't preserve initial whitespace each line of your method should start
 with a `...` followed by the whitespace as per normal python.
 They will look like this ::
 
