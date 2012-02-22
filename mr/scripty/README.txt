@@ -30,8 +30,8 @@ after the cfg is read but before any `install` or 'update` recipe methods have b
 Method names of `install`, `update` are treated specially and not evaluated during
 initialization but rather during the install and update phases of building this
 recipe instance.
-These can be used as quick inplace replacement for creating a real recipe and have the same
-semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3. In addition any option beggining
+These can be used as quick in-place replacement for creating a real recipe and have the same
+semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3. In addition any option beginning
 with `_` is not evaluated so can be used as a private method. Since these are methods `self` is
 an available local variable which refers to the recipe instance. `self.options`, `self.buildout` and
 `self.name` are also available.
