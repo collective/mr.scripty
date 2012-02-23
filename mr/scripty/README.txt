@@ -1,8 +1,8 @@
 Supported options
 =================
 
-The recipe supports the any number of options which are python functions. Since the ini parser
-used with buildout doesn't preserve initial whitespace each line of your method should start
+The recipe supports any number of options, which are Python functions. 
+Since the ini parser used with buildout doesn't preserve initial whitespace each line of your method should start
 with a `...` followed by the whitespace as per normal python.
 They will look like this ::
 
@@ -17,6 +17,10 @@ They will look like this ::
 The return value will be stored as a value in the buildout parts options which is available for
 replacement in other buildout parts. What is returned is always converted to a string.
 
+As each option is a Python function, it needs to possess an acceptable function identifier (see
+http://docs.python.org/reference/lexical_analysis.html#grammar-token-identifier). For instance,
+typical buildout options with hyphens (such as `environment-vars`) will be invalid.
+
 Options all in upper case are treated as string constants and added to the Recipe instance
 as an attribute.
 
@@ -26,16 +30,17 @@ after the cfg is read but before any `install` or 'update` recipe methods have b
 Method names of `install`, `update` are treated specially and not evaluated during
 initialization but rather during the install and update phases of building this
 recipe instance.
-These can be used as quick inplace replacement for creating a real recipe and have the same
-semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3. In addition any option beggining
+These can be used as quick in-place replacement for creating a real recipe and have the same
+semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3. In addition any option beginning
 with `_` is not evaluated so can be used as a private method. Since these are methods `self` is
 an available local variable which refers to the recipe instance. `self.options`, `self.buildout` and
 `self.name` are also available.
 
-
 Example usage
 =============
 
+Tranforming Varnish backends for HAProxy
+----------------------------------------
 
 Let's say you want to transform the a varnish:backends value to what can
 be used inside haproxy::
@@ -105,8 +110,8 @@ turned into methods of the part instance and can call each other. In addition, e
 be called from other buildout recipes by accessing the option via ${part:method} or in code via
 self.buildout[part][method].
 
-Another example
-===============
+Offsetting port numbers
+-----------------------
 
 The following example will make all the values of ports_base available with an offset added to
 each one ::
@@ -122,3 +127,64 @@ each one ::
     init=
       ... for key,value in self.buildout['ports_base'].items():
       ...   self.options[key] = str(int(value)+int(self.OFFSET))
+
+Different download links for certain architectures
+--------------------------------------------------
+
+This example usage shows how to alter download links for third-party libraries
+based upon whether the host platform is 32 or 64-bit. Note that the example
+uses Python 2.6 or later::
+
+    [buildout]
+    parts =
+        ...
+        download
+
+    [scripty]
+    recipe = mr.scripty
+    DOWNLOAD_URL_64 = http://site.com/64bit.tgz
+    DOWNLOAD_URL_32 = http://site.com/32bit.tgz
+    download_url =
+    ... import platform
+    ... is_64bit = any(['64' in x for x in platform.architecture()])
+    ... return is_64bit and self.DOWNLOAD_URL_64 or self.DOWNLOAD_URL_32
+
+    [download]
+    recipe = hexagonit.recipe.download
+    url = ${scripty:download_url}
+
+Checking existence of directories
+---------------------------------
+
+This example tests the existence of a list of directories and selects
+the first one that can be found on the system.  In this particular example,
+we look through a list of potential JDK directories, as the location will
+differ across Linux distributions, in order to install an egg that depends
+on having a Java SDK install available::
+     
+    [buildout]
+    parts =
+        ...
+        jpype
+
+    [scripty]
+    recipe = mr.scripty
+    JAVA_PATHS = 
+        /usr/lib/jvm/java-6-openjdk
+        /etc/alternatives/java_sdk
+        ${buildout:directory}
+    java = 
+        ... import os
+        ... paths = self.JAVA_PATHS.split('\n')
+        ... exists = [os.path.exists(path) for path in paths]
+        ... return paths[exists.index(True)]
+
+    [java-env]
+    JAVA_HOME = ${scripty:java}
+
+    [jpype]
+    recipe = zc.recipe.egg:custom
+    egg = JPype
+    find-links =
+        http://aarnet.dl.sourceforge.net/project/jpype/JPype/0.5.4/JPype-0.5.4.1.zip
+    environment = java-env
