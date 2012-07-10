@@ -120,7 +120,6 @@ each one ::
     instance1=8101
     instance2=8102
 
-
     [ports]
     recipe=mr.scripty
     OFFSET = 1000
@@ -145,9 +144,9 @@ uses Python 2.6 or later::
     DOWNLOAD_URL_64 = http://site.com/64bit.tgz
     DOWNLOAD_URL_32 = http://site.com/32bit.tgz
     download_url =
-    ... import platform
-    ... is_64bit = any(['64' in x for x in platform.architecture()])
-    ... return is_64bit and self.DOWNLOAD_URL_64 or self.DOWNLOAD_URL_32
+        ... import platform
+        ... is_64bit = any(['64' in x for x in platform.architecture()])
+        ... return is_64bit and self.DOWNLOAD_URL_64 or self.DOWNLOAD_URL_32
 
     [download]
     recipe = hexagonit.recipe.download
