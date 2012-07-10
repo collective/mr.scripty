@@ -1,10 +1,10 @@
 Supported options
 =================
 
-The recipe supports any number of options, which are Python functions. 
-Since the ini parser used with buildout doesn't preserve initial whitespace each line of your method should start
-with a `...` followed by the whitespace as per normal python.
-They will look like this ::
+The recipe supports any number of options, which are Python functions.  Since
+the ini parser used with buildout doesn't preserve initial whitespace each
+line of your method should start with a `...` followed by the whitespace as
+per normal python.  They will look like this::
 
   [myscripts]
   recipe = mr.scripty
@@ -14,26 +14,48 @@ They will look like this ::
     ... return ' '.join(x)
 
 
-The return value will be stored as a value in the buildout parts options which is available for
-replacement in other buildout parts. What is returned is always converted to a string.
+The return value will be stored as a value in the buildout parts options which
+is available for replacement in other buildout parts. What is returned is
+always converted to a string.
 
-As each option is a Python function, it needs to possess an acceptable function identifier (see
-http://docs.python.org/reference/lexical_analysis.html#grammar-token-identifier). For instance,
-typical buildout options with hyphens (such as `environment-vars`) will be invalid.
+The one special exception to the above is the ``init`` option, which
+is not stored.  Utilising this option allows you to reduce the need for 
+multiple functions that may do similar jobs, remove the need for a dummy 
+option in order to execute arbitrary code (and other uses), like so::
+    
+    [myscripts]
+    recipe = mr.scripty
+    init = 
+        ... import math
+        ... self.options['pi'] = str(math.pi)
+        ... self.options['e'] = str(math.e)
+        ... self.options['sqrt_two'] = str(math.sqrt(2))
 
-Options all in upper case are treated as string constants and added to the Recipe instance
-as an attribute.
+After running buildout, the options ``pi``, ``e``, and ``sqrt_two`` will all
+be available for use against the ``myscripts`` section like so:
+``${myscripts:sqrt_two}``. See the example regarding `Offsetting port
+numbers`_ for more information.
 
-These functions are actually instance methods of the instance of the scripty recipe.
-Methods are evaluated during the initialization of the Recipe instance, i.e.
-after the cfg is read but before any `install` or 'update` recipe methods have been called.
-Method names of `install`, `update` are treated specially and not evaluated during
-initialization but rather during the install and update phases of building this
-recipe instance.
-These can be used as quick in-place replacement for creating a real recipe and have the same
-semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3. In addition any option beginning
-with `_` is not evaluated so can be used as a private method. Since these are methods `self` is
-an available local variable which refers to the recipe instance. `self.options`, `self.buildout` and
+As each option is a Python function, it needs to possess an acceptable
+function identifier (see
+http://docs.python.org/reference/lexical_analysis.html#grammar-token-identifier).
+For instance, typical buildout options with hyphens (such as
+`environment-vars`) will be invalid.
+
+Options all in upper case are treated as string constants and added to the
+Recipe instance as an attribute.
+
+These functions are actually instance methods of the instance of the scripty
+recipe.  Methods are evaluated during the initialization of the Recipe
+instance, i.e.  after the cfg is read but before any `install` or 'update`
+recipe methods have been called.  Method names of `install`, `update` are
+treated specially and not evaluated during initialization but rather during
+the install and update phases of building this recipe instance.  These can be
+used as quick in-place replacement for creating a real recipe and have the
+same semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3. In
+addition any option beginning with `_` is not evaluated so can be used as a
+private method. Since these are methods `self` is an available local variable
+which refers to the recipe instance. `self.options`, `self.buildout` and
 `self.name` are also available.
 
 Example usage
@@ -42,7 +64,7 @@ Example usage
 Tranforming Varnish backends for HAProxy
 ----------------------------------------
 
-Let's say you want to transform the a varnish:backends value to what can
+Let's say you want to transform a ``varnish:backends`` value to what can
 be used inside haproxy::
 
     >>> write('buildout.cfg',
@@ -105,27 +127,37 @@ Running the buildout gives us::
     this is line 10
     <BLANKLINE>
 
-From this example you'll notice several things. Options that are part of a mr.scripty part are
-turned into methods of the part instance and can call each other. In addition, each method can
-be called from other buildout recipes by accessing the option via ${part:method} or in code via
-self.buildout[part][method].
+From this example you'll notice several things. Options that are part of a
+`mr.scripty` part are turned into methods of the part instance and can call
+each other. In addition, each method can be called from other buildout recipes
+by accessing the option via ``${part:method}`` or in code via
+``self.buildout[part][method]``.
 
 Offsetting port numbers
 -----------------------
 
-The following example will make all the values of ports_base available with an offset added to
-each one ::
+The following example will make all the values of ports_base available with an
+offset added to each one.  This example demonstrates the special ``init``
+option, which enables you to run a special function where the result
+is not stored against the part within buildout::
 
     [ports_base]
     instance1=8101
     instance2=8102
 
     [ports]
-    recipe=mr.scripty
+    recipe = mr.scripty
     OFFSET = 1000
-    init=
-      ... for key,value in self.buildout['ports_base'].items():
-      ...   self.options[key] = str(int(value)+int(self.OFFSET))
+    init =
+        ... for key,value in self.buildout['ports_base'].items():
+        ...     self.options[key] = str(int(value)+int(self.OFFSET))
+
+So, the usage of ``init`` enables us to create options against the ``[ports]``
+section using arbitrary code.  In the example above, this will result in all
+of the options under ``[ports_base]`` being processed to add the ``OFFSET``
+value to the port.  The end result is that other sections of buildout can now
+reference ``${ports:instance1}`` and ``${ports:instance2}``, which will have
+values of 9101 and 9102 respectively. 
 
 Different download links for certain architectures
 --------------------------------------------------
