@@ -1,5 +1,7 @@
 1.0b3 (2011-12-14)
 ==================
+
+- Update documentation with additional examples. [davidjb] 
 -  fix indenting issues [djay]
 -  init is handled as special function where result isn't stored [djay]
 
