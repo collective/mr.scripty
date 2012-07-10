@@ -1,8 +1,14 @@
+1.0b3 (2011-12-14)
+==================
+-  fix indenting issues [djay]
+-  init is handled as special function where result isn't stored [djay]
+
+
 1.0b2 (2011-03-23)
 ==================
 
-- Allow constants if option all uppercase
-- function return values converted to strings or empty string if None
+- Allow constants if option all uppercase [djay]
+- function return values converted to strings or empty string if None [djay]
 
 
 1.0b1 (2011-03-15)
