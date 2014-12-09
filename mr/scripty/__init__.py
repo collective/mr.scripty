@@ -25,7 +25,7 @@ class Recipe(object):
                     line = line[4:]
                 if indent:
                     newbody += "  "
-                newbody += line +'\n'
+                newbody += line + '\n'
                 if line.startswith('"""'):
                     indent = not indent
 
@@ -36,14 +36,15 @@ class Recipe(object):
                 pass
 
         for function, body in options.items():
-            if function in ['recipe','install','update']:
+            if function in ['recipe', 'install', 'update']:
                 continue
             if function.startswith('_'):
                 continue
             if function == function.upper():
                 continue
             f = getattr(self, function)
-            #result = _LazyString(f) #LazyStrings don't work for $ substitions
+            # LazyStrings don't work for $ substitions
+            # result = _LazyString(f)
             result = f()
             if function in ['init']:
                 continue
@@ -57,7 +58,7 @@ class Recipe(object):
     def install(self):
         """Installer"""
         # XXX Implement recipe functionality here
-        
+
         # Return files that were created by the recipe. The buildout
         # will remove all returned files upon reinstall.
         return tuple()
@@ -66,16 +67,19 @@ class Recipe(object):
         """Updater"""
         pass
 
+
 class Debug(Recipe):
     def __init__(self, buildout, name, options):
         Recipe.__init__(self, buildout, name, options, debug=True)
 
 
 class LazyString(str):
+
     def __init__(self, func, name, debug):
         self.func = func
         self.name = name
         self.debug = debug
+
     def __new__(cls, func, *args):
         return str.__new__(cls, "This is not the string you are looking for")
 
@@ -84,22 +88,25 @@ class LazyString(str):
         if not hasattr(self, '__evaluated__'):
             self.__evaluated__ = str(self.func())
             if self.debug:
-                print "DEBUG: %s=%s" %(self.name, self.__evaluated__)
+                print "DEBUG: %s=%s" % (self.name, self.__evaluated__)
         return self.__evaluated__
 
     def __str__(self):
         return self.value
+
     def __repr__(self):
         return self.value
+
 
 class _LazyString(str):
     """Class for strings created by a function call.
 
-    The proxy implementation attempts to be as complete as possible, so that
-    the lazy objects should mostly work as expected, for example for sorting.
-    Shamelessly stolen from speaklater, but changed to make it subclass str due to buildout instance check
+    The proxy implementation attempts to be as complete as possible,
+    so that the lazy objects should mostly work as expected, for
+    example for sorting.  Shamelessly stolen from speaklater, but
+    changed to make it subclass str due to buildout instance check
     """
-    #__slots__ = ('_func', '_args', '_kwargs')
+    # __slots__ = ('_func', '_args', '_kwargs')
 
     def __new__(cls, func, *args):
         return str.__new__(cls, "This is not the string you are looking for")
@@ -193,4 +200,3 @@ class _LazyString(str):
             return 'l' + repr(self.value)
         except Exception:
             return '<%s broken>' % self.__class__.__name__
-
