@@ -29,8 +29,8 @@ class Recipe(object):
                 if line.startswith('"""'):
                     indent = not indent
 
-            exec newbody in globals(), locals()
-            f = types.MethodType(eval(function), self, Recipe)
+            exec(newbody, globals(), locals())
+            f = types.MethodType(eval(function), self)
             setattr(self, function, f)
             if function == 'install':
                 pass
@@ -69,6 +69,7 @@ class Recipe(object):
 
 
 class Debug(Recipe):
+
     def __init__(self, buildout, name, options):
         Recipe.__init__(self, buildout, name, options, debug=True)
 
@@ -88,7 +89,7 @@ class LazyString(str):
         if not hasattr(self, '__evaluated__'):
             self.__evaluated__ = str(self.func())
             if self.debug:
-                print "DEBUG: %s=%s" % (self.name, self.__evaluated__)
+                print("DEBUG: %s=%s" % (self.name, self.__evaluated__))
         return self.__evaluated__
 
     def __str__(self):
