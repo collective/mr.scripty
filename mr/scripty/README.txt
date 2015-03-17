@@ -19,13 +19,13 @@ is available for replacement in other buildout parts. What is returned is
 always converted to a string.
 
 The one special exception to the above is the ``init`` option, which
-is not stored.  Utilising this option allows you to reduce the need for 
-multiple functions that may do similar jobs, remove the need for a dummy 
+is not stored.  Utilising this option allows you to reduce the need for
+multiple functions that may do similar jobs, remove the need for a dummy
 option in order to execute arbitrary code (and other uses), like so::
-    
+
     [myscripts]
     recipe = mr.scripty
-    init = 
+    init =
         ... import math
         ... self.options['pi'] = str(math.pi)
         ... self.options['e'] = str(math.e)
@@ -84,36 +84,35 @@ be used inside haproxy::
     ...   ... for line in self.buildout['varnish']['backends'].splitlines():
     ...   ...    if ':' not in line:
     ...   ...      continue
-    ...   ...    host,dest = line.split(':')
+    ...   ...    host, dest = line.strip().split(':')
     ...   ...    host = host.split('.')[0]
-    ...   ...    res += "acl %s url_sub VirtualHostRoot/%s\\n" % (dest,host)
+    ...   ...    res += "acl {} url_sub VirtualHostRoot/{}\\n".format(host, dest)
     ...   ... return res
     ... repeat =
-    ...   ... opt_repeatx = int(self.options['repeatx'])
+    ...   ... opt_repeatx = int('10')
     ...   ... fun_repeatx = self.repeatx()
     ...   ... return '\\n'.join(["this is line %s"%i for i in range(1,opt_repeatx+1)])
     ... repeatx = return '10'
     ...
     ... [echobackends]
     ... recipe = mr.scripty
-    ... install = print self.buildout['scripty']['backends']; return []
+    ... install = print(self.buildout['scripty']['backends']); return []
     ...
     ... [echorepeat]
     ... recipe = mr.scripty
     ... install =
     ...   ... script = self.buildout['scripty']
-    ...   ... print script['repeat']
+    ...   ... print(script['repeat'])
     ...   ... return []
     ... """)
 
 Running the buildout gives us::
 
-    >>> print 'start', system(buildout) 
-    start...
+    >>> print(system(buildout))
+    Installing scripty.
     Installing echobackends.
     acl host url_sub VirtualHostRoot/255.255.255.1
     acl host2 url_sub VirtualHostRoot/125.125.125.1
-    <BLANKLINE>
     Installing echorepeat.
     this is line 1
     this is line 2
@@ -124,8 +123,7 @@ Running the buildout gives us::
     this is line 7
     this is line 8
     this is line 9
-    this is line 10
-    <BLANKLINE>
+    this is line 10...
 
 From this example you'll notice several things. Options that are part of a
 `mr.scripty` part are turned into methods of the part instance and can call
@@ -157,7 +155,7 @@ section using arbitrary code.  In the example above, this will result in all
 of the options under ``[ports_base]`` being processed to add the ``OFFSET``
 value to the port.  The end result is that other sections of buildout can now
 reference ``${ports:instance1}`` and ``${ports:instance2}``, which will have
-values of 9101 and 9102 respectively. 
+values of 9101 and 9102 respectively.
 
 Different download links for certain architectures
 --------------------------------------------------
@@ -192,7 +190,7 @@ the first one that can be found on the system.  In this particular example,
 we look through a list of potential JDK directories, as the location will
 differ across Linux distributions, in order to install an egg that depends
 on having a Java SDK install available::
-     
+
     [buildout]
     parts =
         ...
@@ -200,11 +198,11 @@ on having a Java SDK install available::
 
     [scripty]
     recipe = mr.scripty
-    JAVA_PATHS = 
+    JAVA_PATHS =
         /usr/lib/jvm/java-6-openjdk
         /etc/alternatives/java_sdk
         ${buildout:directory}
-    java = 
+    java =
         ... import os
         ... paths = self.JAVA_PATHS.split('\n')
         ... exists = [os.path.exists(path) for path in paths]

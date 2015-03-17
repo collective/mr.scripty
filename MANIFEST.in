@@ -1,0 +1,3 @@
+recursive-include mr *.*
+include *.txt
+global-exclude *pyc 

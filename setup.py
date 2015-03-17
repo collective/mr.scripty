@@ -29,14 +29,15 @@ long_description = (
     + '\n' +
     read('CHANGES.txt')
     + '\n' +
-   'Download\n'
+    'Download\n'
     '********\n')
 
 entry_point = 'mr.scripty:Recipe'
-entry_points = {"zc.buildout": ["default = %s" % entry_point,
-                "Debug = mr.scripty:Debug"],}
+entry_points = {"zc.buildout": [
+    "default = %s" % entry_point,
+    "Debug = mr.scripty:Debug"]}
 
-tests_require = ['zope.testing', 'zc.buildout']
+tests_require = ['zope.testing', 'zc.buildout [test]']
 
 setup(name='mr.scripty',
       version=version,
@@ -45,11 +46,11 @@ setup(name='mr.scripty',
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        'Framework :: Buildout',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
-        'License :: OSI Approved :: Zope Public License',
-        ],
+          'Framework :: Buildout',
+          'Intended Audience :: Developers',
+          'Topic :: Software Development :: Build Tools',
+          'License :: OSI Approved :: Zope Public License',
+      ],
       keywords='buildout',
       author='Dylan Jay',
       author_email='software@pretaweb.com',
