@@ -31,7 +31,7 @@ entry_points = {"zc.buildout": [
     "default = %s" % entry_point,
     "Debug = mr.scripty:Debug"]}
 
-tests_require = ['zope.testing', 'zc.buildout [test]']
+tests_require = ['zope.testing', 'zc.buildout [test]', 'z3c.coverage']
 
 setup(name='mr.scripty',
       version=version,
