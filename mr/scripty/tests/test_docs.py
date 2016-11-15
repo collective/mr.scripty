@@ -2,13 +2,13 @@
 """
 Doctest runner for 'mr.scripty'.
 """
-__docformat__ = 'restructuredtext'
-
 import unittest
 import zc.buildout.tests
 import zc.buildout.testing
 
 from zope.testing import doctest, renormalizing
+
+__docformat__ = 'restructuredtext'
 
 
 OPTIONFLAGS = (doctest.ELLIPSIS |
