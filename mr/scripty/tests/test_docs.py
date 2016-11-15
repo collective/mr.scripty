@@ -29,7 +29,7 @@ def setUp(test):
 def test_suite():
     suite = unittest.TestSuite((
         doctest.DocFileSuite(
-            '../README.txt',
+            '../README.rst',
             setUp=setUp,
             tearDown=zc.buildout.testing.buildoutTearDown,
             optionflags=OPTIONFLAGS,
