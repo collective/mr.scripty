@@ -7,9 +7,8 @@ env:
   matrix:
     - TESTENV=py27
     - TESTENV=py35
-    - TESTENV=coveralls
+    - TESTENV=py34
 script: "tox --recreate -e $TESTENV"
 branches:
     except:
         - /^\d/
-
