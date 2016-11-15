@@ -71,7 +71,6 @@ be available for use against the ``myscripts`` section like so:
 ``${myscripts:sqrt_two}``. See the example regarding `Offsetting port
 numbers`_ for more information.
 
-
 Install and Update
 ------------------
 These functions are actually instance methods of the instance of the scripty
@@ -83,6 +82,10 @@ the install and update phases of building this recipe instance.  These can be
 used as quick in-place replacement for creating a real recipe and have the
 same semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3.
 
+
+Bugs and Repo
+=============
+
 - Code repository: https://github.com/collective/mr.scripty
 - Questions and comments to https://github.com/collective/mr.scripty
 - Report bugs at https://github.com/collective/mr.scripty
@@ -90,4 +93,4 @@ same semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3.
 Examples
 ========
 
-`Examples <http:///./mr/scripty/README.rst>`_.
+`See Examples <mr/scripty/README.rst>`_.
