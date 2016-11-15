@@ -6,3 +6,8 @@ dist
 .installed.cfg
 bin
 develop-eggs
+eggs
+
+# Unit test / coverage reports
+.coverage
+.tox
