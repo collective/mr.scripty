@@ -1,10 +1,10 @@
 1.0 (unreleased)
-================
+----------------
 
 - Add support for Python 3.4. This breaks with Python 2.6 and before.
 
 1.0b3 (2011-12-14)
-==================
+------------------
 
 - Update documentation with additional examples. [davidjb] 
 -  fix indenting issues [djay]
@@ -12,14 +12,14 @@
 
 
 1.0b2 (2011-03-23)
-==================
+------------------
 
 - Allow constants if option all uppercase [djay]
 - function return values converted to strings or empty string if None [djay]
 
 
 1.0b1 (2011-03-15)
-==================
+------------------
 
 - Initial version
   ["Dylan Jay"]
