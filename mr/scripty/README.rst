@@ -49,8 +49,8 @@ Running the buildout gives us::
     >>> print(system(buildout))
     Installing scripty.
     Installing echobackends.
-    acl host url_sub VirtualHostRoot/255.255.255.1
-    acl host2 url_sub VirtualHostRoot/125.125.125.1
+    acl myhost url_sub VirtualHostRoot/255.255.255.1
+    acl myhost2 url_sub VirtualHostRoot/125.125.125.1
     Installing echorepeat.
     this is line 1
     this is line 2
