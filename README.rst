@@ -1,9 +1,17 @@
 Mr.Scripty
 ==========
-A quick way to build recipes by using python directly inside zc.buildout
 
-.. image:: https://travis-ci.org/ridha/mr.scripty.svg?branch=master
-    :target: https://travis-ci.org/ridha/mr.scripty (Py2.7,Py3.4,Py4.5)
+|travis| |pyversions|
+
+
+.. |travis| image:: https://travis-ci.org/ridha/mr.scripty.svg?branch=master
+    :target: https://travis-ci.org/ridha/mr.scripty
+
+.. |pyversions| image:: https://img.shields.io/badge/python-2.6,_3.4,_3.5-blue.svg?style=flat
+    :target: https://travis-ci.org/ridha/mr.scripty
+
+
+A quick way to build recipes by using python directly inside zc.buildout
 
 .. contents::
 
@@ -78,14 +86,15 @@ be available for use against the ``myscripts`` section like so:
 numbers`_ for more information.
 
 
-``update`` is called if the arguments (functions or constants) have changed
-since the last run.
+``install`` is called if the arguments (functions or constants) have changed
+since the last run or if it's never run before.
 
-``install`` is called if the recipe has never run before.
+``update`` is called each time (but after init)
 
 These can be
 used as quick in-place replacement for creating a real recipe and have the
-same semantics as detailed in https://pypi.python.org/pypi/zc.buildout/2.5.3#id86.
+same semantics as detailed in
+http://www.buildout.org/en/latest/docs/tutorial.html?highlight=update#writing-recipes.
 
 
 Bugs and Repo
