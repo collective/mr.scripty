@@ -12,9 +12,7 @@ def read(*rnames):
 version = '1.0'
 
 long_description = (
-    read('README.rst')
-    + '\n' +
-    read('mr', 'scripty', 'README.rst')
+    read('README.rst').replace("""`See Examples <mr/scripty/README.rst>`_.""", read('mr', 'scripty', 'README.rst'))
     + '\n' +
     'Contributors\n'
     '============\n'
