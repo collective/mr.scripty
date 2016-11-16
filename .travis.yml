@@ -1,0 +1,14 @@
+language: python
+sudo: false
+# command to install dependencies
+install: "pip install -U tox setuptools"
+# # command to run tests
+env:
+  matrix:
+    - TESTENV=py27
+    - TESTENV=py35
+    - TESTENV=py34
+script: "tox --recreate -e $TESTENV"
+branches:
+    except:
+        - /^\d/

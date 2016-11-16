@@ -1,0 +1,7 @@
+[report]
+omit =
+    parts/*
+    eggs/*
+    lib/*
+    */test*
+include=mr*
