@@ -2,6 +2,9 @@ Mr.Scripty
 ==========
 A quick way to build recipes by using python directly inside zc.buildout
 
+.. image:: https://travis-ci.org/ridha/mr.scripty.svg?branch=master
+    :target: https://travis-ci.org/ridha/mr.scripty (Py2.7,Py3.4,Py4.5)
+
 .. contents::
 
 
@@ -50,11 +53,14 @@ which refers to the recipe instance. `self.options`, `self.buildout` and
 Any option beginning with `_` is not evaluated so can be used as a
 private function.
 
-Init
-----
+Init, Install and Update
+------------------------
 
-The one special exception to the above is the ``init`` option, which
-is not stored.  Utilising this option allows you to reduce the need for
+There are three special functions which are evaluated regardless if they
+are called from another recipe and whose value isn't stored.
+
+``init``: Init is called everytime the recipe is loaded. This function allows you
+to reduce the need for
 multiple functions that may do similar jobs, remove the need for a dummy
 option in order to execute arbitrary code (and other uses), like so::
 
@@ -71,16 +77,15 @@ be available for use against the ``myscripts`` section like so:
 ``${myscripts:sqrt_two}``. See the example regarding `Offsetting port
 numbers`_ for more information.
 
-Install and Update
-------------------
-These functions are actually instance methods of the instance of the scripty
-recipe.  Methods are evaluated during the initialization of the Recipe
-instance, i.e.  after the cfg is read but before any `install` or 'update`
-recipe methods have been called.  Method names of `install`, `update` are
-treated specially and not evaluated during initialization but rather during
-the install and update phases of building this recipe instance.  These can be
+
+``update`` is called if the arguments (functions or constants) have changed
+since the last run.
+
+``install`` is called if the recipe has never run before.
+
+These can be
 used as quick in-place replacement for creating a real recipe and have the
-same semantics as detailed in http://pypi.python.org/pypi/zc.buildout#id3.
+same semantics as detailed in https://pypi.python.org/pypi/zc.buildout/2.5.3#id86.
 
 
 Bugs and Repo

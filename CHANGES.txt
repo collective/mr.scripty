@@ -1,7 +1,10 @@
-1.0 (unreleased)
+1.0 (2016-11-16)
 ----------------
 
-- Add support for Python 3.4. This breaks with Python 2.6 and before.
+- Add support for Python 3.4. This breaks with Python 2.6 and before. [Sylvain Viollon]
+- Integrate with travis, coveralls - [abdul.maliyakkal]
+- Improve readme [djay]
+
 
 1.0b3 (2011-12-14)
 ------------------
@@ -21,5 +24,4 @@
 1.0b1 (2011-03-15)
 ------------------
 
-- Initial version
-  ["Dylan Jay"]
+- Initial version ["Dylan Jay", djay]
