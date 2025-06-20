@@ -29,8 +29,10 @@ class Recipe(object):
                 if line.startswith('"""'):
                     indent = not indent
 
-            exec(newbody, globals(), locals())
-            f = types.MethodType(eval(function), self)
+            namespace = {}
+            exec(newbody, globals(), namespace)
+            my_function = namespace[function]
+            f = types.MethodType(my_function, self)
             setattr(self, function, f)
             if function == 'install':
                 pass
