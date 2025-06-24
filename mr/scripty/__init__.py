@@ -2,7 +2,7 @@
 """Recipe scripty"""
 
 import types
-
+from copy import deepcopy
 
 class Recipe(object):
     """zc.buildout recipe"""
@@ -28,8 +28,8 @@ class Recipe(object):
                 newbody += line + '\n'
                 if line.startswith('"""'):
                     indent = not indent
-
-            namespace = {}
+            
+            namespace = deepcopy(locals())
             exec(newbody, globals(), namespace)
             my_function = namespace[function]
             f = types.MethodType(my_function, self)
