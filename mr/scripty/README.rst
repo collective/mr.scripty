@@ -1,6 +1,6 @@
 
-Tranforming Varnish backends for HAProxy
-----------------------------------------
+Transforming Varnish backends for HAProxy
+-----------------------------------------
 
 Let's say you want to transform a ``varnish:backends`` value to what can
 be used inside haproxy::

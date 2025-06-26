@@ -1,3 +1,7 @@
+prune news
 recursive-include mr *.*
+exclude constraints-mxdev.txt
 include *.txt
-global-exclude *pyc 
+include .coveragerc
+include buildout.cfg
+global-exclude *pyc

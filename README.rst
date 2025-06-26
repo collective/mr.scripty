@@ -67,7 +67,7 @@ Init, Install and Update
 There are three special functions which are evaluated regardless if they
 are called from another recipe and whose value isn't stored.
 
-``init``: Init is called everytime the recipe is loaded. This function allows you
+``init``: Init is called every time the recipe is loaded. This function allows you
 to reduce the need for
 multiple functions that may do similar jobs, remove the need for a dummy
 option in order to execute arbitrary code (and other uses), like so::

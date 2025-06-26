@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 """Recipe scripty"""
 
 import types
 
 
-class Recipe(object):
+class Recipe:
     """zc.buildout recipe"""
 
     def __init__(self, buildout, name, options, debug=False):
@@ -12,44 +11,46 @@ class Recipe(object):
         self._debug = debug
 
         for function, body in options.items():
-            if function in ['recipe']:
+            if function in ["recipe"]:
                 continue
             if function == function.upper():
                 # it's a constant
                 setattr(self, function, body)
                 continue
-            newbody = 'def ' + function + '(self):\n'
+            newbody = "def " + function + "(self):\n"
             indent = True
-            for line in body.split('\n'):
+            for line in body.split("\n"):
                 if line.startswith("..."):
                     line = line[4:]
                 if indent:
                     newbody += "  "
-                newbody += line + '\n'
+                newbody += line + "\n"
                 if line.startswith('"""'):
                     indent = not indent
 
-            exec(newbody, globals(), locals())
-            f = types.MethodType(eval(function), self)
+            namespace = {}
+            exec(newbody, globals(), namespace)
+            my_function = namespace[function]
+            f = types.MethodType(my_function, self)
             setattr(self, function, f)
-            if function == 'install':
+            if function == "install":
                 pass
 
         for function, body in options.items():
-            if function in ['recipe', 'install', 'update']:
+            if function in ["recipe", "install", "update"]:
                 continue
-            if function.startswith('_'):
+            if function.startswith("_"):
                 continue
             if function == function.upper():
                 continue
             f = getattr(self, function)
-            # LazyStrings don't work for $ substitions
+            # LazyStrings don't work for $ substitutions
             # result = _LazyString(f)
             result = f()
-            if function in ['init']:
+            if function in ["init"]:
                 continue
             if result is None:
-                result = ''
+                result = ""
             else:
                 result = str(result)
 
@@ -86,10 +87,10 @@ class LazyString(str):
 
     @property
     def value(self):
-        if not hasattr(self, '__evaluated__'):
+        if not hasattr(self, "__evaluated__"):
             self.__evaluated__ = str(self.func())
             if self.debug:
-                print("DEBUG: %s=%s" % (self.name, self.__evaluated__))
+                print(f"DEBUG: {self.name}={self.__evaluated__}")
         return self.__evaluated__
 
     def __str__(self):
@@ -107,6 +108,7 @@ class _LazyString(str):
     example for sorting.  Shamelessly stolen from speaklater, but
     changed to make it subclass str due to buildout instance check
     """
+
     # __slots__ = ('_func', '_args', '_kwargs')
 
     def __new__(cls, func, *args):
@@ -126,7 +128,7 @@ class _LazyString(str):
         return bool(self.value)
 
     def __dir__(self):
-        return dir(unicode)
+        return dir(str)
 
     def __iter__(self):
         return iter(self.value)
@@ -141,7 +143,7 @@ class _LazyString(str):
         return int(self.value)
 
     def __unicode__(self):
-        return unicode(self.value)
+        return str(self.value)
 
     def __add__(self, other):
         return self.value + other
@@ -180,7 +182,7 @@ class _LazyString(str):
         return self.value >= other
 
     def __getattr__(self, name):
-        if name == '__members__':
+        if name == "__members__":
             return self.__dir__()
         return getattr(self.value, name)
 
@@ -198,6 +200,6 @@ class _LazyString(str):
 
     def __repr__(self):
         try:
-            return 'l' + repr(self.value)
+            return "l" + repr(self.value)
         except Exception:
-            return '<%s broken>' % self.__class__.__name__
+            return "<%s broken>" % self.__class__.__name__
