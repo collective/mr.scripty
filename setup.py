@@ -22,7 +22,7 @@ long_description = (
     + "\n"
     + "Contributors\n"
     "============\n" + "\n" + read("CONTRIBUTORS.txt") + "\n" + "Change history\n"
-    "==============\n" + "\n" + read("CHANGES.txt")
+    "==============\n" + "\n" + read("CHANGES.rst")
 )
 
 entry_point = "mr.scripty:Recipe"
