@@ -1,3 +1,20 @@
+2.0.1 (2025-06-27)
+------------------
+
+Breaking changes:
+
+
+- The package now supports only Python 3.9+
+  [ale-rt] (#7)
+
+
+Bug fixes:
+
+
+- Make the code compatible with Python 3.13
+  [zmijunkie] (#6)
+
+
 2.0.0 (2025-06-27)
 ------------------
 

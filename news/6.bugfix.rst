@@ -1,2 +1,0 @@
-Make the code compatible with Python 3.13
-[zmijunkie]

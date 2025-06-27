@@ -1,2 +1,0 @@
-The package now supports only Python 3.9+
-[ale-rt]
