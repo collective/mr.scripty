@@ -1,14 +1,19 @@
 Mr.Scripty
 ==========
 
-|travis| |pyversions|
+|pyversions| |dependabot| |meta| |tests|
 
+.. |pyversions| image:: https://img.shields.io/badge/python-3.9%2B-blue.svg?style=flat
+    :target: https://www.python.org/downloads/
 
-.. |travis| image:: https://travis-ci.org/ridha/mr.scripty.svg?branch=master
-    :target: https://travis-ci.org/ridha/mr.scripty
+.. |dependabot| image:: https://github.com/collective/mr.scripty/actions/workflows/dependabot/dependabot-updates/badge.svg
+    :target: https://github.com/collective/mr.scripty/actions/workflows/dependabot/dependabot-updates
 
-.. |pyversions| image:: https://img.shields.io/badge/python-2.6,_3.4,_3.5-blue.svg?style=flat
-    :target: https://travis-ci.org/ridha/mr.scripty
+.. |meta| image:: https://github.com/collective/mr.scripty/actions/workflows/meta.yml/badge.svg
+    :target: https://github.com/collective/mr.scripty/actions/workflows/meta.yml
+
+.. |tests| image:: https://github.com/collective/mr.scripty/actions/workflows/test-matrix.yml/badge.svg
+    :target: https://github.com/collective/mr.scripty/actions/workflows/test-matrix.yml
 
 
 A quick way to build recipes by using python directly inside zc.buildout
